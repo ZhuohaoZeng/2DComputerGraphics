@@ -1,0 +1,66 @@
+<title>CS 475: Fall 2024</title>
+<body bgcolor=#f3f3f3>
+
+    <center>
+        <H1>CS 475: Fall 2024</H1>
+        <H2>Final</H2>
+
+    <blockquote>
+        <a href="final_colormatrix.png"><img src="final_colormatrix.png" height="192" /></a> &nbsp;
+        <a href="final_coons.png"><img src="final_coons.png" height="192" /></a> &nbsp;
+        <a href="final_linearpos.png"><img src="final_linearpos.png" height="192" /></a> &nbsp;
+        <a href="final_stroke.png"><img src="final_stroke.png" height="192" /></a> &nbsp;
+        <a href="final_sweep.png"><img src="final_sweep.png" height="192" /></a> &nbsp;
+        <a href="final_voronoi.png"><img src="final_voronoi.png" height="192" /></a> &nbsp;
+    </blockquote>
+    </center>
+
+    <p>
+    The final will be an in-room programming assignment. Like the others, you will clone starter
+    code from github onto your laptop, copy over your existing code, and begin. When you are
+    finished, or time expires, submit your code back up to github. <b>You must submit your code back to github to get credit.</b>
+    <br/><br/>
+    <b>Honor code</b> is in effect! You may use your previous notes and code, but
+    you may not get code or assistance from the internet, AIs or assistants, or other people,
+    <br/><br/>
+    </p>
+    
+    <H2>Details : GFinal.h</H2>
+    <pre>
+        class GFinal {
+        public:
+        ...
+        };
+
+        std::unique_ptr&lt;GFinal&gt; GCreateFinal();
+    </pre>
+    Create a subclass of GFinal and return it from your implementation of <b>GCreateFinal()</b>. There are 6 virtuals
+    <ul>
+        <li>createVoronoiShader</li>
+        <li>createSweepGradient</li>
+        <li>createLinearPosGradient</li>
+        <li>createColorMatrixShader</li>
+        <li>strokePolygon</li>
+        <li>drawQuadraticCoons</li>
+    </ul>
+    To get full credit, <b>you need to complete 2 of the images</b> (implement 2 virtuals).
+    However, you can work on more than 2, and your final score will include any partial credit
+    you achieve on any/all of them.
+    <br/><br/>
+    Your directory should like something like this:
+    <ul>
+        <li><b>apps</b> contains the code for testing your code.</li>
+        <li><b>expected</b> contains sample output from the image tool to compare with your output.</li>
+        <li><b>include</b> contains class headers that your code can use.</li>
+        <li><b>src</b> contains common implementations needed for the tools.</li>
+        <li>DO <b>NOT</b> EDIT/ADD/REMOVE anything in these sub-directories. You should only add files to the root of the directory.</li>
+        <li><i>your_files</i> any .cpp or .h files you need for your implementation. All of your work must be here.</li>
+    </ul>
+    <br>
+    To test your code...
+    <pre>
+        > make
+        > ./image -e expected -v
+    </pre>
+    As always, <b>test your code on the VM</b>, since that is where I will test it.
+</body>

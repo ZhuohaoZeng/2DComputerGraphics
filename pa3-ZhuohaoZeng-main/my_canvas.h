@@ -1,0 +1,35 @@
+
+#ifndef _g_my_canvas_h_
+#define _g_my_canvas_h_
+
+#include "include/GCanvas.h"
+#include "include/GMatrix.h"
+#include "include/GPoint.h"
+#include "include/GRect.h"
+#include "include/GBitmap.h"
+#include "include/GShader.h"
+
+
+class MyCanvas : public GCanvas {
+public:
+    MyCanvas(const GBitmap& device) : fDevice(device), matrixStack() {
+        matrixStack.push_back(GMatrix());
+    }
+
+    //drawing
+    void clear(const GColor& color) override;
+    void drawRect(const GRect& rect, const GPaint& paint) override;
+    void drawConvexPolygon(const GPoint* point, int count, const GPaint& paint) override;
+
+    //transformation
+    void save() override;
+    void restore() override;
+    void concat(const GMatrix& matrix) override;
+ 
+private:
+    // Note: we store a copy of the bitmap
+    const GBitmap fDevice;
+    std::vector<GMatrix> matrixStack;
+    // Add whatever other fields you need
+};
+#endif
