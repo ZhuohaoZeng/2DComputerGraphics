@@ -1,4 +1,4 @@
-# 2DComputerGraphics
+# 2D Graphic Engine
 ## PA1: Canvas & Blending
 This module turns floating-point colors into premultiplied ARGB pixels, writes them into a bitmap, blends rectangles with full Porter–Duff compositing, and extends the canvas with a convex polygon rasterizer using fast integer math — forming the basic building blocks of a 2D software rasterizer.
 
@@ -95,7 +95,7 @@ This module adds a **generalized shader system** and a **blend mode pipeline**, 
 - **Canvas Integration**
   -  Updated my_canvas.cpp so all draw calls (paths, rects, gradients) request colors from the active shader and then apply blending.
   -  Ensures consistency between geometric rasterization (edges/paths) and color computation.
-## PA6:
+## PA6: Meshes, Quads & Per-Triangle Shading
 This assignment extends PA5 by adding support for triangle meshes, quad patches, and more advanced shader composition. The focus is on **per-triangle transforms, texture mapping, and color interpolation**.
 ### New Features
 - **Triangle Meshes**
