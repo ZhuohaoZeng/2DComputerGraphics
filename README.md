@@ -96,9 +96,8 @@ This module adds a **generalized shader system** and a **blend mode pipeline**, 
   -  Updated my_canvas.cpp so all draw calls (paths, rects, gradients) request colors from the active shader and then apply blending.
   -  Ensures consistency between geometric rasterization (edges/paths) and color computation.
 ## PA6:
-
-### New Features
 This assignment extends PA5 by adding support for triangle meshes, quad patches, and more advanced shader composition. The focus is on **per-triangle transforms, texture mapping, and color interpolation**.
+### New Features
 - **Triangle Meshes**
   - Renders arbitrary sets of triangles.
   - Three cases supported per triangle:
@@ -118,4 +117,9 @@ This assignment extends PA5 by adding support for triangle meshes, quad patches,
   - Forwards isOpaque and shadeRow calls, but applies ctm * extraTransform.
   - Enables per-triangle texture mapping without modifying the underlying shader.
 ## Final:
-- ** **
+In the final implementation, I introduced 2 new shader: SweepGradientShader and VoronoiShader
+### New Features
+- **SweepGradientShader**
+  - Implements angular (sweep) gradients, where colors are determined by the angle around a central pivot. Extends gradient variety beyond the linear/radial gradients of PA6.
+- **VoronoiShader**
+  - Introduces Voronoi-based rendering, shading each pixel based on proximity to a set of seed points. Adds a non-linear, distance-based artistic fill capability not present in PA6.
