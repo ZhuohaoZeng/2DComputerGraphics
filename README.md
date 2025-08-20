@@ -1,6 +1,6 @@
 # 2DComputerGraphics
 ## PA1: Canvas & Blending
-This module turns floating-point colors into premultiplied ARGB pixels, writes them into a bitmap, blends rectangles with full Porter–Duff compositing, and extends the PA1 canvas with a convex polygon rasterizer using fast integer math — forming the basic building blocks of a 2D software rasterizer.
+This module turns floating-point colors into premultiplied ARGB pixels, writes them into a bitmap, blends rectangles with full Porter–Duff compositing, and extends the canvas with a convex polygon rasterizer using fast integer math — forming the basic building blocks of a 2D software rasterizer.
 
 ### New Features
 
@@ -83,7 +83,7 @@ This module introduces **path rendering** with the non-zero winding rule and a *
   - Interpolates premultiplied ARGB colors per pixel, reports opacity for blend-mode optimization.
 
 ## PA5: Extend Shaders & Blending
-This module introduces a shader pipeline and pixel blending. Instead of always overwriting destination pixels, the canvas now supports combining source and destination colors according to blend rules, with shaders controlling how source pixels are computed.
+This module adds a **generalized shader system** and a **blend mode pipeline**, allowing draw operations to generate pixels through shaders and then combine them with the destination image using configurable blend rules.
 ### New Features
 - **Blend Modes**
   -  Introduced a blending framework (blend.h) with support for standard blend operations (e.g., Src, SrcOver).
@@ -95,7 +95,27 @@ This module introduces a shader pipeline and pixel blending. Instead of always o
 - **Canvas Integration**
   -  Updated my_canvas.cpp so all draw calls (paths, rects, gradients) request colors from the active shader and then apply blending.
   -  Ensures consistency between geometric rasterization (edges/paths) and color computation.
-- ** **
-- ** ** 
 ## PA6:
+
+### New Features
+This assignment extends PA5 by adding support for triangle meshes, quad patches, and more advanced shader composition. The focus is on **per-triangle transforms, texture mapping, and color interpolation**.
+- **Triangle Meshes**
+  - Renders arbitrary sets of triangles.
+  - Three cases supported per triangle:
+    - Vertex colors only → shaded via a TriangleShader (barycentric interpolation).
+    - Texcoords only → texture mapping through a ProxyShader, which injects a per-triangle device→local transform.
+    - Both colors & texcoords → combines a TriangleShader (colors) and proxied texture shader into a composite shader, shaded in one pass.
+- **Quad Patches**
+  -  Subdivides a 4-point patch into an N×N grid.
+  -  Bilinearly interpolates positions, colors, and texcoords across the patch.
+  -  Triangulates each cell and draws it using drawMesh.
+- **TriangleShader**
+  - Uses barycentric interpolation for per-pixel color from triangle vertices.
+  - Computes a 2×3 mapping matrix from geometry, inverted with CTM.
+  - Reports opacity when all input vertex colors are opaque.
+- **ProxyShader**
+  - Wraps an existing shader with an extra local transform.
+  - Forwards isOpaque and shadeRow calls, but applies ctm * extraTransform.
+  - Enables per-triangle texture mapping without modifying the underlying shader.
 ## Final:
+- ** **
