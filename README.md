@@ -2,7 +2,7 @@
 ## PA1: Canvas & Blending
 This module turns floating-point colors into premultiplied ARGB pixels, writes them into a bitmap, blends rectangles with full Porter–Duff compositing, and extends the PA1 canvas with a convex polygon rasterizer using fast integer math — forming the basic building blocks of a 2D software rasterizer.
 
-### Features
+### New Features
 
 - **Premultiplied ARGB pixels**  
   Convert floating-point colors into premultiplied 8-bit ARGB format for efficient compositing.
@@ -23,7 +23,7 @@ This module turns floating-point colors into premultiplied ARGB pixels, writes t
 ## PA2: Blending & Convex Polygon Rasterization
 This module extends the PA1 canvas with full Porter–Duff blending and a convex polygon rasterizer, all in **premultiplied ARGB** using fast integer math.
 
-### Features
+### New Features
 - **Blending Modes (Porter–Duff)**
   - `Clear, Src, Dst, SrcOver, DstOver, SrcIn, DstIn, SrcOut, DstOut, SrcATop, DstATop, Xor`
   - Fast integer compositing via `multiplyPixel((x*y)/255)`
@@ -38,9 +38,64 @@ This module extends the PA1 canvas with full Porter–Duff blending and a convex
   - Clip edges to device bounds (vertical/horizontal cases handled)
   - Scanline fill by emitting 1-pixel-high rects and blending with the selected mode
 
-## PA3:
+## PA3: Shaders & Transforms
+This module extends the Assignment 2 canvas with a **bitmap shader system**, a **matrix/CTM transform stack**, and **shader-aware drawing paths** for rectangles and convex polygons. 
+Together with full Porter–Duff blending and convex polygon rasterization, this provides a flexible, shader-driven pipeline
 
-## PA4:
-## PA5:
+### New Features
+
+- **Bitmap Shader**
+  - Implements `MyShader` for sampling from a bitmap with nearest-neighbor lookup.
+  - Supports `setContext(ctm)` with matrix inversion for device-to-local mapping.
+  - Provides `shadeRow(x,y,count,row[])` for per-row color generation.
+  - Reports opacity via `isOpaque()` for blend-mode simplification.
+
+- **Matrix & Transform Stack**
+  - Added `GMatrix` with `Translate`, `Scale`, `Rotate`, `Concat`, `Invert`, and `mapPoints`.
+  - Canvas maintains a stack of current transforms (`save`, `restore`, `concat`).
+  - Shapes are drawn in device space by mapping points through the CTM.
+
+- **Shader-Aware Drawing**
+  - Rectangles and convex polygons:
+    - Solid-color fast path when no shader is present.
+    - Per-row shader sampling when a shader is provided.
+  - Blend modes are preprocessed to skip unnecessary work when possible.
+
+- **Convex Polygon Rasterizer (Refactor)**
+  - Edges and clipping factored into `edge.h`.
+  - Robust scanline fill with edge sorting and clipping to device bounds.
+
+## PA4: Paths & Gradients
+This module introduces **path rendering** with the non-zero winding rule and a **linear gradient shader**, along with stronger edge handling.
+### New Features
+- **Path Drawing**
+  - Added `drawPath` to rasterize arbitrary paths using edge lists and the non-zero winding rule.
+  - Path segments (`lineTo`, `moveTo`) are converted into edges and clipped against the device.
+  - Integrates with the CTM stack and shaders, so transformed and shaded paths can be filled correctly.
+
+- **Improved Edge Handling**
+  - Extended the edge pipeline with explicit **winding numbers** for correct non-zero winding fills.
+  - Added robust clipping in both X and Y to keep edges constrained to device bounds.
+
+- **Linear Gradient Shader**
+  - Implemented `LinearGradientShader`, supporting both simple 2-color gradients and multi-stop gradients.
+  - Computes gradients in local space using inverse transforms of the CTM.
+  - Interpolates premultiplied ARGB colors per pixel, reports opacity for blend-mode optimization.
+
+## PA5: Extend Shaders & Blending
+This module introduces a shader pipeline and pixel blending. Instead of always overwriting destination pixels, the canvas now supports combining source and destination colors according to blend rules, with shaders controlling how source pixels are computed.
+### New Features
+- **Blend Modes**
+  -  Introduced a blending framework (blend.h) with support for standard blend operations (e.g., Src, SrcOver).
+  -  All raster operations now pass colors through the blend pipeline before writing to the device.
+- **Shader Interface**
+  -  Formalized the Shader base class with required methods such as isOpaque() and shadeRow().
+  -  Added MyShader (MyShader.cpp) as an example shader implementation.
+  -  Shaders now integrate directly with the CTM and supply per-pixel colors to the rasterizer.
+- **Canvas Integration**
+  -  Updated my_canvas.cpp so all draw calls (paths, rects, gradients) request colors from the active shader and then apply blending.
+  -  Ensures consistency between geometric rasterization (edges/paths) and color computation.
+- ** **
+- ** ** 
 ## PA6:
 ## Final:
