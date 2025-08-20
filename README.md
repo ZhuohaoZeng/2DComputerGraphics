@@ -117,7 +117,7 @@ This assignment extends PA5 by adding support for triangle meshes, quad patches,
   - Forwards isOpaque and shadeRow calls, but applies ctm * extraTransform.
   - Enables per-triangle texture mapping without modifying the underlying shader.
 ## Final:
-In the final implementation, I introduced 2 new shader: SweepGradientShader and VoronoiShader
+In the final implementation, I introduced 2 new shader: **Sweep Gradient Shader** and **Voronoi Shader**
 ### New Features
 - **SweepGradientShader**
   - Implements angular (sweep) gradients, where colors are determined by the angle around a central pivot. Extends gradient variety beyond the linear/radial gradients of PA6.
